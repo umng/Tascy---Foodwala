@@ -3,6 +3,7 @@ package xyz.umng.tascy.app;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseInstallation;
 
 import xyz.umng.tascy.helper.ParseUtils;
@@ -24,6 +25,8 @@ public class MyApplication extends Application {
 
         // register with parse
         ParseUtils.registerParse(this);
+
+        ParseFacebookUtils.initialize(this);
     }
 
 
