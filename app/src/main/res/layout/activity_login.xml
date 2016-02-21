@@ -69,5 +69,16 @@
             android:gravity="center"
             android:textSize="16dip"/>
 
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/facebook_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/cardview_light_background"
+            android:paddingLeft="16dp"
+            android:paddingRight="24dp"
+            android:layout_marginBottom="24dp"
+            android:drawableLeft="@drawable/facebook_login_logo"
+            android:text="Log in with Facebook" />
+
     </LinearLayout>
 </ScrollView>
