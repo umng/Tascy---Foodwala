@@ -41,7 +41,6 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        ParsePush.unsubscribeInBackground("TascyCustomer");
         ParseUtils.subscribeWithEmail("");
 
         ButterKnife.bind(this);
