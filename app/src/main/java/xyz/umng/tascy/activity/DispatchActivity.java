@@ -20,12 +20,16 @@ public class DispatchActivity extends Activity {
         super.onCreate(savedInstanceState);
         if(ParseUser.getCurrentUser()!=null)
         {
-            startActivity(new Intent(DispatchActivity.this,MainActivity.class));
+            Intent intent = new Intent(DispatchActivity.this,MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
         else
         {
             //change it to WelcomeActivity
-            startActivity(new Intent(DispatchActivity.this,LoginActivity.class));
+            Intent intent = new Intent(DispatchActivity.this,LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 }
