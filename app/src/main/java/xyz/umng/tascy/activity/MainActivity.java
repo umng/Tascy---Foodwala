@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -71,6 +72,16 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    public void gotoSettings()
+    {
+        startActivity(new Intent(this, SettingsActivity.class));
+    }
+
+    public void gotoHelp()
+    {
+        startActivity(new Intent(this, HelpActivity.class));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -90,7 +101,31 @@ public class MainActivity extends ActionBarActivity {
             logout();
             return true;
         }
+        else if (id == R.id.action_help) {
+            gotoHelp();
+            return true;
+        }
+        else if (id == R.id.action_settings) {
+            gotoSettings();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
     }
 }
