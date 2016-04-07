@@ -9,25 +9,49 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.facebook.appevents.AppEventsLogger;
+import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
 import xyz.umng.tascy.R;
+import xyz.umng.tascy.adapter.CustomAdapter;
+import xyz.umng.tascy.model.Category;
+import xyz.umng.tascy.model.DataItem;
 
 /**
  * Created by Umang on 2/15/2016.
  */
 public class MainActivity extends ActionBarActivity {
 
+    @Bind(R.id.view_items_btn)
+    Button _viewItemsButton;
+
     private static final String TAG = "MainActivity";
+
+    List<Category> categories = new ArrayList<>();
+
+    ParseUser user;
 
     private Toolbar toolbar;
 
-    ParseUser user;
+    private ProgressDialog progressDialog;
+
+    private ArrayList<DataItem> data;
+    private CustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +64,70 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         user = new ParseUser();
+
+        _viewItemsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ItemListActivity.class));
+            }
+        });
+
+//        ParseQuery<Category> query = new ParseQuery<>("Category");
+//        query.findInBackground(new FindCallback<Category>() {
+//            @Override
+//            public void done(List<Category> list, ParseException e) {
+//                if(e == null)
+//                {
+//                    for(Category category : list){
+//                        Category newCategory = new Category();
+//                        newCategory.setCategoryName(category.getCategoryName());
+//                        newCategory.setRegion(category.getRegion());
+//                        categories.add(newCategory);
+//                    }
+//
+//                    ArrayAdapter<Category> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, categories);
+//                    setListAdapter(adapter);
+//                }
+//                else {
+//                    Toast.makeText(getBaseContext(), "Error : getting Categories", Toast.LENGTH_SHORT);
+//                }
+//            }
+//        });
+
+        progressDialog = new ProgressDialog(MainActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(true);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        data = new ArrayList<>();
+//        this.data.add(new DataItem("Umang Patel", "8195875260"));
+//        this.data.add(new DataItem("Shyam Javia", "9898989898"));
+//        this.data.add(new DataItem("Nikunj Patel", "9586565226"));
+
+        adapter = new CustomAdapter(this, data);
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(adapter);
+
+        ParseQuery orderQuery = new ParseQuery("Category");
+        orderQuery.orderByDescending("createdAt");
+        orderQuery.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> content, ParseException pEx) {
+                if (pEx == null && content != null) {
+                    if (!(content.isEmpty())) {
+                        for (ParseObject orderObject : content) {
+                            data.add(new DataItem(orderObject.getString("categoryName"), orderObject.getString("region").toString()));
+                            adapter.notifyDataSetChanged();
+                        }
+                        progressDialog.dismiss();
+                    }
+                }
+            }
+        });
+
     }
 
     private void logout()

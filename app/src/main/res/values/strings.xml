@@ -8,4 +8,8 @@
     <string name="facebook_app_id">185742201793888</string>
     <string name="title_activity_help">Help</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_item_list">ItemListActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
