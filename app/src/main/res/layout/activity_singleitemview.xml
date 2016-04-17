@@ -3,39 +3,64 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <ImageView
-        android:id="@+id/coverImage"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="170sp"
-        android:background="#000000"
-        android:padding="1dp"
-        android:alpha="0.4"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-50sp"
+        android:id="@+id/categoryTitle">
 
-    <TextView
+        <ImageView
+            android:id="@+id/coverImage"
+            android:layout_width="match_parent"
+            android:layout_height="170sp"
+            android:background="#000000"
+            android:padding="1dp"/>
+
+        <ImageView
+            android:id="@+id/coverImageBG"
+            android:layout_width="match_parent"
+            android:layout_height="170sp"
+            android:background="#000000"
+            android:padding="1dp"
+            android:alpha="0.8"/>
+
+        <TextView
+            android:id="@+id/itemCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gujarati Specials"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="36sp"
+            android:layout_alignBottom="@id/coverImage"
+            android:layout_marginBottom="50sp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gujarat"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="italic"
+            android:textSize="22sp"
+            android:layout_alignBottom="@id/itemCategory"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-40sp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40sp"
-        android:background="#000000"
-        android:alpha="0.8"
-        android:layout_alignBottom="@id/coverImage"/>
-
-    <TextView
-        android:id="@+id/itemCategory"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gujarati Specials"
-        android:textSize="24sp"
-        android:layout_alignBottom="@id/coverImage"
-        android:layout_marginBottom="5sp"
-        android:layout_marginLeft="5sp"/>
+        android:layout_below="@id/categoryTitle">
 
-    <TextView
-        android:id="@+id/region"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gujarat"
-        android:textSize="18sp"
-        android:layout_alignRight="@id/coverImage"
-        android:layout_alignBottom="@id/itemCategory"
-        android:layout_marginRight="10sp"/>
+        <ListView
+            android:id="@+id/itemListView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

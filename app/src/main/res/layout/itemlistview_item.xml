@@ -4,41 +4,41 @@
     android:layout_height="fill_parent" >
 
     <ImageView
-        android:id="@+id/coverImage"
+        android:id="@+id/itemImage"
         android:layout_width="match_parent"
         android:layout_height="170sp"
         android:background="#000000"
         android:padding="1dp"
         android:alpha="0.4"/>
-    
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40sp"
         android:background="#000000"
         android:alpha="0.8"
-        android:layout_alignBottom="@id/coverImage"/>
+        android:layout_alignBottom="@id/itemImage"/>
 
     <TextView
-        android:id="@+id/itemCategory"
+        android:id="@+id/itemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gujarati Specials"
+        android:text="Dhokala"
         android:fontFamily="sans-serif-medium"
         android:textSize="24sp"
-        android:layout_alignBottom="@id/coverImage"
+        android:layout_alignBottom="@id/itemImage"
         android:layout_marginBottom="5sp"
         android:layout_marginLeft="5sp"/>
 
     <TextView
-        android:id="@+id/region"
+        android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gujarat"
+        android:text="50 INR"
         android:fontFamily="sans-serif"
         android:textSize="18sp"
         android:textStyle="italic"
-        android:layout_alignRight="@id/coverImage"
-        android:layout_alignBottom="@id/itemCategory"
+        android:layout_alignRight="@id/itemImage"
+        android:layout_alignBottom="@id/itemName"
         android:layout_marginRight="10sp"/>
 
 </RelativeLayout>
