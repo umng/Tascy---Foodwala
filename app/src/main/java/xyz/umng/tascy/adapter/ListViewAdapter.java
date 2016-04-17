@@ -18,8 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import xyz.umng.tascy.R;
-import xyz.umng.tascy.model.ImageLoader;
-import xyz.umng.tascy.model.SingleItemView;
+import xyz.umng.tascy.activity.SingleItemViewActivity;
 import xyz.umng.tascy.model.WorldPopulation;
 
 /**
@@ -30,7 +29,6 @@ public class ListViewAdapter extends BaseAdapter {
     // Declare Variables
     Context context;
     LayoutInflater inflater;
-    ImageLoader imageLoader;
     private List<WorldPopulation> worldpopulationlist = null;
     private ArrayList<WorldPopulation> arraylist;
 
@@ -41,7 +39,6 @@ public class ListViewAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
         this.arraylist = new ArrayList<WorldPopulation>();
         this.arraylist.addAll(worldpopulationlist);
-        imageLoader = new ImageLoader(context);
     }
 
     public class ViewHolder {
@@ -90,28 +87,18 @@ public class ListViewAdapter extends BaseAdapter {
 
         //************************************************
         // show The Image in a ImageView
-        new DownloadImageTask((ImageView) view.findViewById(R.id.flag))
+        new DownloadImageTask(holder.flag)
                 .execute(worldpopulationlist.get(position).getFlag());
 
-//        public void onClick(View v) {
-//            startActivity(new Intent(this, IndexActivity.class));
-//            finish();
-//
-//        }
+        //************************************************
 
-                //************************************************
-
-
-        // Set the results into ImageView
-//        imageLoader.DisplayImage(worldpopulationlist.get(position).getFlag(),
-//                holder.flag);
         // Listen for ListView Item Click
         view.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                // Send single item click data to SingleItemView Class
-                Intent intent = new Intent(context, SingleItemView.class);
+                // Send single item click data to SingleItemViewActivity Class
+                Intent intent = new Intent(context, SingleItemViewActivity.class);
                 // Pass all data rank
                 intent.putExtra("rank",
                         (worldpopulationlist.get(position).getRank()));
@@ -124,15 +111,12 @@ public class ListViewAdapter extends BaseAdapter {
                 // Pass all data flag
                 intent.putExtra("flag",
                         (worldpopulationlist.get(position).getFlag()));
-                // Start SingleItemView Class
+                // Start SingleItemViewActivity Class
                 context.startActivity(intent);
             }
         });
         return view;
     }
-
-
-
 
     //******************************************************
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -159,10 +143,6 @@ public class ListViewAdapter extends BaseAdapter {
             bmImage.setImageBitmap(result);
         }
     }
-
-
-
-
     //******************************************************
 
 }
