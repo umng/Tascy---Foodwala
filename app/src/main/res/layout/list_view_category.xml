@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10px"
+    android:clickable="true"
+    android:background="@color/cardview_dark_background">
+
+    <ImageView
+        android:src="@drawable/logo_red"
+        android:id="@+id/categoryImage"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp"
+        android:layout_marginBottom="24dp"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/categoryImage"
+        android:textSize="24sp"
+        android:id="@+id/categoryValue"
+        android:text="Gujarati Specials"
+        android:textColor="@color/primary"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/categoryImage"
+        android:layout_alignBottom="@id/categoryValue"
+        android:textSize="18sp"
+        android:id="@+id/regionValue"
+        android:text="Gujarat"
+        android:textColor="@color/primary"/>
+
+</RelativeLayout>

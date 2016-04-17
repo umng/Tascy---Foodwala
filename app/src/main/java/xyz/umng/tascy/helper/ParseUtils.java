@@ -9,10 +9,12 @@ import android.widget.Toast;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
 import xyz.umng.tascy.app.AppConfig;
+import xyz.umng.tascy.model.Category;
 
 /**
  * Created by Umang on 2/16/2016.
@@ -29,6 +31,9 @@ public class ParseUtils {
     }
 
     public static void registerParse(Context context) {
+        //registering subclass
+        ParseObject.registerSubclass(Category.class);
+
         // initializing parse library
         Parse.initialize(context, AppConfig.PARSE_APPLICATION_ID, AppConfig.PARSE_CLIENT_KEY);
         ParseInstallation.getCurrentInstallation().saveInBackground();
