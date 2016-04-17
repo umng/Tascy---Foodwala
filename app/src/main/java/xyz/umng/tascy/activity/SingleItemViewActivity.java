@@ -7,13 +7,14 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.InputStream;
 
 import xyz.umng.tascy.R;
-import xyz.umng.tascy.adapter.ListViewAdapter;
 
 /**
  * Created by Umang on 4/7/2016.
@@ -21,41 +22,38 @@ import xyz.umng.tascy.adapter.ListViewAdapter;
 
 public class SingleItemViewActivity extends Activity {
     // Declare Variables
-    String rank;
-    String country;
-    String population;
-    String flag;
+    String itemCategory;
+    String region;
+    String coverImage;
     String position;
+    // Animation
+    Animation animFadein;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Get the view from singleitemview.xml
-        setContentView(R.layout.singleitemview);
+        // Get the view from activity_singleitemvieweitemview.xml
+        setContentView(R.layout.activity_singleitemview);
 
         Intent i = getIntent();
-        // Get the result of rank
-        rank = i.getStringExtra("rank");
-        // Get the result of country
-        country = i.getStringExtra("country");
-        // Get the result of population
-        population = i.getStringExtra("population");
-        // Get the result of flag
-        flag = i.getStringExtra("flag");
+        // Get the result of itemCategory
+        itemCategory = i.getStringExtra("itemCategory");
+        // Get the result of region
+        region = i.getStringExtra("region");
+        // Get the result of coverImage
+        coverImage = i.getStringExtra("coverImage");
 
-        // Locate the TextViews in singleitemview.xml
-        TextView txtrank = (TextView) findViewById(R.id.rank);
-        TextView txtcountry = (TextView) findViewById(R.id.country);
-        TextView txtpopulation = (TextView) findViewById(R.id.population);
+        // Locate the TextViews in activity_singleitemvieweitemview.xml
+        TextView txtitemCategory = (TextView) findViewById(R.id.itemCategory);
+        TextView txtregion = (TextView) findViewById(R.id.region);
 
-        // Locate the ImageView in singleitemview.xml
-        ImageView imgflag = (ImageView) findViewById(R.id.flag);
+        // Locate the ImageView in activity_singleitemvieweitemview.xml
+        ImageView imgcoverImage = (ImageView) findViewById(R.id.coverImage);
 
         // Set results to the TextViews
-        txtrank.setText(rank);
-        txtcountry.setText(country);
-        txtpopulation.setText(population);
-        new DownloadImageTask(imgflag).execute(flag);
+        txtitemCategory.setText(itemCategory);
+        txtregion.setText(region);
+        new DownloadImageTask(imgcoverImage).execute(coverImage);
     }
 
 
@@ -83,6 +81,11 @@ public class SingleItemViewActivity extends Activity {
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
+
+            // load the animation
+            animFadein = AnimationUtils.loadAnimation(SingleItemViewActivity.this,
+                    R.anim.fade_in);
+            bmImage.startAnimation(animFadein);
         }
     }
     //******************************************************

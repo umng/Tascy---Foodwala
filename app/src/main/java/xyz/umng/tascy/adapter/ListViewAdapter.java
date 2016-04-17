@@ -13,13 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import xyz.umng.tascy.R;
 import xyz.umng.tascy.activity.SingleItemViewActivity;
-import xyz.umng.tascy.model.WorldPopulation;
+import xyz.umng.tascy.model.Category;
 
 /**
  * Created by Umang on 4/7/2016.
@@ -29,33 +31,36 @@ public class ListViewAdapter extends BaseAdapter {
     // Declare Variables
     Context context;
     LayoutInflater inflater;
-    private List<WorldPopulation> worldpopulationlist = null;
-    private ArrayList<WorldPopulation> arraylist;
+    private List<Category> categoryList = null;
+    private ArrayList<Category> arrayList;
+
+    // Animation
+    Animation animFadein;
 
     public ListViewAdapter(Context context,
-                           List<WorldPopulation> worldpopulationlist) {
+                           List<Category> categoryList) {
         this.context = context;
-        this.worldpopulationlist = worldpopulationlist;
+        this.categoryList = categoryList;
         inflater = LayoutInflater.from(context);
-        this.arraylist = new ArrayList<WorldPopulation>();
-        this.arraylist.addAll(worldpopulationlist);
+        this.arrayList = new ArrayList<Category>();
+        this.arrayList.addAll(categoryList);
     }
 
     public class ViewHolder {
-        TextView rank;
-        TextView country;
+        TextView itemCategory;
+        TextView region;
         TextView population;
-        ImageView flag;
+        ImageView coverImage;
     }
 
     @Override
     public int getCount() {
-        return worldpopulationlist.size();
+        return categoryList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return worldpopulationlist.get(position);
+        return categoryList.get(position);
     }
 
     @Override
@@ -69,26 +74,22 @@ public class ListViewAdapter extends BaseAdapter {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.listview_item, null);
             // Locate the TextViews in listview_item.xml
-            holder.rank = (TextView) view.findViewById(R.id.rank);
-            holder.country = (TextView) view.findViewById(R.id.country);
-            holder.population = (TextView) view.findViewById(R.id.population);
+            holder.itemCategory = (TextView) view.findViewById(R.id.itemCategory);
+            holder.region = (TextView) view.findViewById(R.id.region);
             // Locate the ImageView in listview_item.xml
-            holder.flag = (ImageView) view.findViewById(R.id.flag);
+            holder.coverImage = (ImageView) view.findViewById(R.id.coverImage);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.rank.setText(worldpopulationlist.get(position).getRank());
-        holder.country.setText(worldpopulationlist.get(position).getCountry());
-        holder.population.setText(worldpopulationlist.get(position)
-                .getPopulation());
-
+        holder.itemCategory.setText(categoryList.get(position).getItemCategory());
+        holder.region.setText(categoryList.get(position).getRegion());
 
         //************************************************
         // show The Image in a ImageView
-        new DownloadImageTask(holder.flag)
-                .execute(worldpopulationlist.get(position).getFlag());
+        new DownloadImageTask(holder.coverImage)
+                .execute(categoryList.get(position).getCoverImage());
 
         //************************************************
 
@@ -99,18 +100,14 @@ public class ListViewAdapter extends BaseAdapter {
             public void onClick(View arg0) {
                 // Send single item click data to SingleItemViewActivity Class
                 Intent intent = new Intent(context, SingleItemViewActivity.class);
-                // Pass all data rank
-                intent.putExtra("rank",
-                        (worldpopulationlist.get(position).getRank()));
-                // Pass all data country
-                intent.putExtra("country",
-                        (worldpopulationlist.get(position).getCountry()));
-                // Pass all data population
-                intent.putExtra("population",
-                        (worldpopulationlist.get(position).getPopulation()));
-                // Pass all data flag
-                intent.putExtra("flag",
-                        (worldpopulationlist.get(position).getFlag()));
+                // Pass all data itemCategory
+                intent.putExtra("itemCategory",
+                        (categoryList.get(position).getItemCategory()));
+                // Pass all data region
+                intent.putExtra("region",
+                        (categoryList.get(position).getRegion()));
+                intent.putExtra("coverImage",
+                        (categoryList.get(position).getCoverImage()));
                 // Start SingleItemViewActivity Class
                 context.startActivity(intent);
             }
@@ -141,6 +138,11 @@ public class ListViewAdapter extends BaseAdapter {
 
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
+
+            // load the animation
+            animFadein = AnimationUtils.loadAnimation(context,
+                    R.anim.fade_in);
+            bmImage.startAnimation(animFadein);
         }
     }
     //******************************************************

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -26,7 +25,7 @@ import java.util.List;
 
 import xyz.umng.tascy.R;
 import xyz.umng.tascy.adapter.ListViewAdapter;
-import xyz.umng.tascy.model.WorldPopulation;
+import xyz.umng.tascy.model.Category;
 
 /**
  * Created by Umang on 2/15/2016.
@@ -43,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
     List<ParseObject> ob;
     ProgressDialog mProgressDialog;
     ListViewAdapter adapter;
-    private List<WorldPopulation> worldpopulationlist = null;
+    private List<Category> categoryList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,25 +79,27 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected Void doInBackground(Void... params) {
             // Create the array
-            worldpopulationlist = new ArrayList<>();
+            categoryList = new ArrayList<>();
             try {
-                // Locate the class table named "Country" in Parse.com
+                // Locate the class table named "Category" in Parse.com
                 ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
-                        "Country");
+                        "Category");
                 // Locate the column named "ranknum" in Parse.com and order list
                 // by ascending
-                query.orderByAscending("ranknum");
+                query.orderByAscending("rank");
                 ob = query.find();
-                for (ParseObject country : ob) {
+                for (ParseObject category : ob) {
                     // Locate images in flag column
-                    ParseFile image = (ParseFile) country.get("flag");
+                    ParseFile image = (ParseFile) category.get("coverImage");
 
-                    WorldPopulation map = new WorldPopulation();
-                    map.setRank((String) country.get("rank"));
-                    map.setCountry((String) country.get("country"));
-                    map.setPopulation((String) country.get("population"));
-                    map.setFlag(image.getUrl());
-                    worldpopulationlist.add(map);
+                    Category item = new Category();
+                    item.setItemCategory((String) category.get("itemCategory"));
+                    item.setRegion((String) category.get("region"));
+                    if(image.getUrl() != null)
+                    {
+                        item.setCoverImage(image.getUrl());
+                    }
+                    categoryList.add(item);
                 }
             } catch (ParseException e) {
                 Log.e("Error", e.getMessage());
@@ -113,7 +114,7 @@ public class MainActivity extends ActionBarActivity {
             listview = (ListView) findViewById(R.id.listview);
             // Pass the results into ListViewAdapter.java
             adapter = new ListViewAdapter(MainActivity.this,
-                    worldpopulationlist);
+                    categoryList);
             // Binds the Adapter to the ListView
             listview.setAdapter(adapter);
             // Close the progressdialog
