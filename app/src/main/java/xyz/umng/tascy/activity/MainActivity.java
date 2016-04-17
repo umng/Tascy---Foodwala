@@ -2,6 +2,7 @@ package xyz.umng.tascy.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -9,14 +10,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.facebook.appevents.AppEventsLogger;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import xyz.umng.tascy.R;
+import xyz.umng.tascy.adapter.ListViewAdapter;
+import xyz.umng.tascy.model.WorldPopulation;
 
 /**
  * Created by Umang on 2/15/2016.
@@ -29,6 +39,12 @@ public class MainActivity extends ActionBarActivity {
 
     ParseUser user;
 
+    ListView listview;
+    List<ParseObject> ob;
+    ProgressDialog mProgressDialog;
+    ListViewAdapter adapter;
+    private List<WorldPopulation> worldpopulationlist = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +56,69 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         user = new ParseUser();
+
+        // Execute RemoteDataTask AsyncTask
+        new RemoteDataTask().execute();
+    }
+
+    // RemoteDataTask AsyncTask
+    private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            mProgressDialog = new ProgressDialog(MainActivity.this, R.style.AppTheme_Dark_Dialog);
+            // Set progressdialog title
+            //mProgressDialog.setTitle("Parse.com Custom ListView Tutorial");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            // Create the array
+            worldpopulationlist = new ArrayList<>();
+            try {
+                // Locate the class table named "Country" in Parse.com
+                ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
+                        "Country");
+                // Locate the column named "ranknum" in Parse.com and order list
+                // by ascending
+                query.orderByAscending("ranknum");
+                ob = query.find();
+                for (ParseObject country : ob) {
+                    // Locate images in flag column
+                    ParseFile image = (ParseFile) country.get("flag");
+
+                    WorldPopulation map = new WorldPopulation();
+                    map.setRank((String) country.get("rank"));
+                    map.setCountry((String) country.get("country"));
+                    map.setPopulation((String) country.get("population"));
+                    map.setFlag(image.getUrl());
+                    worldpopulationlist.add(map);
+                }
+            } catch (ParseException e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // Locate the listview in listview_main.xml
+            listview = (ListView) findViewById(R.id.listview);
+            // Pass the results into ListViewAdapter.java
+            adapter = new ListViewAdapter(MainActivity.this,
+                    worldpopulationlist);
+            // Binds the Adapter to the ListView
+            listview.setAdapter(adapter);
+            // Close the progressdialog
+            mProgressDialog.dismiss();
+        }
     }
 
     private void logout()
