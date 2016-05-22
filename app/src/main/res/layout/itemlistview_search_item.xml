@@ -5,20 +5,16 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/accent"
+    app:cardBackgroundColor="@color/primary"
     card_view:cardElevation="2dp"
-    card_view:cardUseCompatPadding="true"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    app:cardPreventCornerOverlap="true">
-    <!--android:focusableInTouchMode="true"-->
+    card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="160dp">
 
         <ImageView
-            android:id="@+id/coverImage"
+            android:id="@+id/searchItemImage"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="#000000"
@@ -33,31 +29,43 @@
             android:layout_height="40sp"
             android:background="@color/primary_darker"
             android:alpha="0.8"
-            android:layout_alignBottom="@id/coverImage"/>
+            android:layout_alignBottom="@id/searchItemImage"/>
 
         <TextView
-            android:id="@+id/itemCategory"
+            android:id="@+id/searchItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gujarati Specials"
+            android:text="Dhokala"
             android:fontFamily="sans-serif"
             android:textSize="24sp"
             android:textColor="@color/accent"
-            android:layout_alignBottom="@id/coverImage"
+            android:layout_alignBottom="@id/searchItemImage"
             android:layout_marginBottom="5sp"
             android:layout_marginLeft="5sp"/>
 
         <TextView
-            android:id="@+id/region"
+            android:id="@+id/searchItemCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gujarat"
+            android:text="Gujarati Specials"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="16sp"
+            android:layout_alignBottom="@id/searchItemImage"
+            android:layout_toRightOf="@id/searchItemName"
+            android:layout_marginBottom="5sp"
+            android:layout_marginLeft="8sp"/>
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50 INR"
             android:fontFamily="sans-serif"
             android:textSize="18sp"
             android:textColor="@color/accent"
             android:textStyle="italic"
-            android:layout_alignRight="@id/coverImage"
-            android:layout_alignBottom="@id/itemCategory"
+            android:layout_alignRight="@id/searchItemImage"
+            android:layout_alignBottom="@id/searchItemName"
             android:layout_marginRight="10sp"/>
 
     </RelativeLayout>

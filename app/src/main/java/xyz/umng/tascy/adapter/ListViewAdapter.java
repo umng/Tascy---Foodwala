@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import xyz.umng.tascy.R;
-import xyz.umng.tascy.activity.SingleItemViewActivity;
+import xyz.umng.tascy.activity.ItemListViewActivity;
 import xyz.umng.tascy.model.Category;
 
 /**
@@ -98,8 +98,8 @@ public class ListViewAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View arg0) {
-                // Send single item click data to SingleItemViewActivity Class
-                Intent intent = new Intent(context, SingleItemViewActivity.class);
+                // Send single item click data to ItemListViewActivity Class
+                Intent intent = new Intent(context, ItemListViewActivity.class);
                 // Pass all data itemCategory
                 intent.putExtra("itemCategory",
                         (categoryList.get(position).getItemCategory()));
@@ -108,7 +108,7 @@ public class ListViewAdapter extends BaseAdapter {
                         (categoryList.get(position).getRegion()));
                 intent.putExtra("coverImage",
                         (categoryList.get(position).getCoverImage()));
-                // Start SingleItemViewActivity Class
+                // Start ItemListViewActivity Class
                 context.startActivity(intent);
             }
         });

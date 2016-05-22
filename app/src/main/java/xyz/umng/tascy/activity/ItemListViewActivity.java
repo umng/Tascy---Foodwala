@@ -31,7 +31,7 @@ import xyz.umng.tascy.model.Item;
  * Created by Umang on 4/7/2016.
  */
 
-public class SingleItemViewActivity extends Activity {
+public class ItemListViewActivity extends Activity {
     // Declare Variables
     String itemCategory;
     String region;
@@ -50,7 +50,7 @@ public class SingleItemViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Get the view from activity_singleitemvieweitemview.xml
-        setContentView(R.layout.activity_singleitemview);
+        setContentView(R.layout.activity_item_list_view);
 
         Intent i = getIntent();
         // Get the result of itemItem
@@ -60,11 +60,11 @@ public class SingleItemViewActivity extends Activity {
         // Get the result of coverImage
         coverImage = i.getStringExtra("coverImage");
 
-        // Locate the TextViews in activity_singleitemview.xml
+        // Locate the TextViews in activity_item_list_view.xml
         TextView txtItemCategory = (TextView) findViewById(R.id.itemCategory);
         TextView txtRegion = (TextView) findViewById(R.id.region);
 
-        // Locate the ImageView in activity_singleitemview.xml
+        // Locate the ImageView in activity_item_list_view.xml
         ImageView imgCoverImage = (ImageView) findViewById(R.id.coverImage);
 
         // Set results to the TextViews
@@ -84,7 +84,7 @@ public class SingleItemViewActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
-            mProgressDialog = new ProgressDialog(SingleItemViewActivity.this, R.style.AppTheme_Dark_Dialog);
+            mProgressDialog = new ProgressDialog(ItemListViewActivity.this, R.style.AppTheme_Dark_Dialog);
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
             mProgressDialog.setIndeterminate(false);
@@ -112,6 +112,7 @@ public class SingleItemViewActivity extends Activity {
                     Item item = new Item();
                     item.setItemName((String) category.get("itemName"));
                     item.setPrice((String) category.get("price") + " INR");
+                    item.setItemCategory((String) category.get("itemCategory"));
                     if(image.getUrl() != null)
                     {
                         item.setItemImage(image.getUrl());
@@ -130,7 +131,7 @@ public class SingleItemViewActivity extends Activity {
             // Locate the itemListview in itemListview_main.xml
             itemListview = (ListView) findViewById(R.id.itemListView);
             // Pass the results into itemListviewAdapter.java
-            adapter = new ItemListViewAdapter(SingleItemViewActivity.this,
+            adapter = new ItemListViewAdapter(ItemListViewActivity.this,
                     itemList);
             // Binds the Adapter to the itemListview
             itemListview.setAdapter(adapter);
@@ -165,7 +166,7 @@ public class SingleItemViewActivity extends Activity {
             bmImage.setImageBitmap(result);
 
             // load the animation
-            animFadein = AnimationUtils.loadAnimation(SingleItemViewActivity.this,
+            animFadein = AnimationUtils.loadAnimation(ItemListViewActivity.this,
                     R.anim.fade_in);
             bmImage.startAnimation(animFadein);
         }

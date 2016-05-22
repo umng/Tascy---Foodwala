@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/accent"
+    tools:context="xyz.umng.tascy.activity.ItemListViewActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,9 +24,9 @@
             android:id="@+id/coverImageBG"
             android:layout_width="match_parent"
             android:layout_height="170sp"
-            android:background="#000000"
+            android:background="@color/primary_darker"
             android:padding="1dp"
-            android:alpha="0.8"/>
+            android:alpha="0.9"/>
 
         <TextView
             android:id="@+id/itemCategory"
@@ -31,6 +35,7 @@
             android:text="Gujarati Specials"
             android:fontFamily="sans-serif-medium"
             android:textSize="36sp"
+            android:textColor="@color/accent"
             android:layout_alignBottom="@id/coverImage"
             android:layout_marginBottom="50sp"
             android:layout_centerHorizontal="true"/>
@@ -43,6 +48,7 @@
             android:fontFamily="sans-serif-medium"
             android:textStyle="italic"
             android:textSize="22sp"
+            android:textColor="@color/accent"
             android:layout_alignBottom="@id/itemCategory"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="-40sp"/>
@@ -59,7 +65,11 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:divider="@null"
-            android:dividerHeight="0dp"/>
+            android:dividerHeight="0dp"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:headerDividersEnabled="true"
+            android:footerDividersEnabled="true"/>
 
     </RelativeLayout>
 

@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
     android:background="@color/accent"
-    tools:context="xyz.umng.tascy.activity.MainActivity">
+    tools:context="xyz.umng.tascy.activity.SearchResultsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_below="@id/main_toolbar">
 
             <ListView
-                android:id="@+id/listview"
+                android:id="@+id/searchlistview"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:divider="@null"

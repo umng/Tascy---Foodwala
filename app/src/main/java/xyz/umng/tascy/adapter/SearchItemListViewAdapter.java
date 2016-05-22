@@ -1,8 +1,5 @@
 package xyz.umng.tascy.adapter;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,7 +8,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,38 +15,43 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import xyz.umng.tascy.R;
 import xyz.umng.tascy.activity.ItemDetailsViewActivity;
 import xyz.umng.tascy.activity.ItemListViewActivity;
-import xyz.umng.tascy.model.Item;
+import xyz.umng.tascy.model.SearchItem;
 
 /**
- * Created by umang on 18-04-2016.
+ * Created by umang on 25-04-2016.
  */
-public class ItemListViewAdapter extends BaseAdapter {
+public class SearchItemListViewAdapter extends BaseAdapter {
 
     // Declare Variables
     Context context;
     LayoutInflater inflater;
-    private List<Item> ItemList = null;
-    private ArrayList<Item> arrayList;
+    private List<SearchItem> ItemList = null;
+    private ArrayList<SearchItem> arrayList;
 
     // Animation
     Animation animFadein;
 
-    public ItemListViewAdapter(Context context,
-                           List<Item> ItemList) {
+    public SearchItemListViewAdapter(Context context,
+                               List<SearchItem> ItemList) {
         this.context = context;
         this.ItemList = ItemList;
         inflater = LayoutInflater.from(context);
-        this.arrayList = new ArrayList<Item>();
+        this.arrayList = new ArrayList<SearchItem>();
         this.arrayList.addAll(ItemList);
     }
 
     public class ViewHolder {
-        TextView itemName;
+        TextView searchItemName;
         TextView price;
-        ImageView itemImage;
+        TextView getSearchItemCategory;
+        ImageView searchItemImage;
     }
 
     @Override
@@ -72,35 +73,37 @@ public class ItemListViewAdapter extends BaseAdapter {
         final ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = inflater.inflate(R.layout.itemlistview_item, null);
-            // Locate the TextViews in itemlistview_item.xml
-            holder.itemName = (TextView) view.findViewById(R.id.itemName);
+            view = inflater.inflate(R.layout.itemlistview_search_item, null);
+            // Locate the TextViews in searchItemlistview_searchItem.xml
+            holder.searchItemName = (TextView) view.findViewById(R.id.searchItemName);
             holder.price = (TextView) view.findViewById(R.id.price);
-            // Locate the ImageView in itemlistview_item.xml
-            holder.itemImage = (ImageView) view.findViewById(R.id.itemImage);
+            holder.getSearchItemCategory = (TextView) view.findViewById(R.id.searchItemCategory);
+            // Locate the ImageView in searchItemlistview_searchItem.xml
+            holder.searchItemImage = (ImageView) view.findViewById(R.id.searchItemImage);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.itemName.setText(ItemList.get(position).getItemName());
+        holder.searchItemName.setText(ItemList.get(position).getItemName());
         holder.price.setText(ItemList.get(position).getPrice());
+        holder.getSearchItemCategory.setText(ItemList.get(position).getItemCategory());
 
         //************************************************
         // show The Image in a ImageView
-        new DownloadImageTask(holder.itemImage)
+        new DownloadImageTask(holder.searchItemImage)
                 .execute(ItemList.get(position).getItemImage());
 
         //************************************************
 
         // Listen for ListView Item Click
-        view.setOnClickListener(new OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                // Send single item click data to ItemListViewActivity Class
+                // Send single searchItem click data to ItemListViewActivity Class
                 Intent intent = new Intent(context, ItemDetailsViewActivity.class);
-                // Pass all data itemName
+                // Pass all data searchItemName
                 intent.putExtra("ITEM_NAME",
                         (ItemList.get(position).getItemName()));
                 // Pass all data price
