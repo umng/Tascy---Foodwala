@@ -18,7 +18,6 @@ import com.facebook.HttpMethod;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
-import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -31,6 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import xyz.umng.tascy.R;
 import xyz.umng.tascy.helper.ParseUtils;
+import xyz.umng.tascy.utils.Utils;
 
 /**
  * Created by Umang on 2/15/2016.
@@ -43,6 +43,9 @@ public class LoginActivity extends AppCompatActivity {
     private String facebook_login_last_name = "";
 
     ProgressDialog progressDialog;
+
+    public static final String PREF_USER_FIRST_TIME = "user_first_time";
+    boolean isUserFirstTime;
 
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_password) EditText _passwordText;
@@ -61,6 +64,16 @@ public class LoginActivity extends AppCompatActivity {
         ParseUtils.subscribeWithEmail("");
 
         ButterKnife.bind(this);
+
+
+        isUserFirstTime = Boolean.valueOf(Utils.readSharedSetting(LoginActivity.this, PREF_USER_FIRST_TIME, "true"));
+
+        Intent introIntent = new Intent(LoginActivity.this, OnboardingActivity.class);
+        introIntent.putExtra(PREF_USER_FIRST_TIME, isUserFirstTime);
+
+        if (isUserFirstTime)
+            startActivity(introIntent);
+
 
         _emailText.setOnClickListener(new View.OnClickListener() {
             @Override

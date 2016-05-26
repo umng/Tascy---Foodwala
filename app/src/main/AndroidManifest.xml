@@ -87,7 +87,11 @@
             android:resource="@drawable/logo" />
 
         <activity android:name=".activity.SearchResultsActivity" />
-        <activity android:name=".activity.ItemDetailsViewActivity"></activity>
+        <activity android:name=".activity.ItemDetailsViewActivity" />
+        <activity
+            android:name=".activity.OnboardingActivity"
+            android:label="@string/title_activity_onboarding"
+            android:theme="@style/AppTheme.Dark"></activity>
     </application>
 
 </manifest>

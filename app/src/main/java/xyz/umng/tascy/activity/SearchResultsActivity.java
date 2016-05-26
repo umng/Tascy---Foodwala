@@ -60,7 +60,6 @@ public class SearchResultsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Search");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
